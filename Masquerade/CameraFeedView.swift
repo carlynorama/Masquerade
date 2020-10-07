@@ -8,9 +8,23 @@
 import SwiftUI
 
 struct CameraFeedView: View {
-    var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
-    }
+    @State private var image: Image?
+       @State private var showingUIView = false
+
+       var body: some View {
+           VStack {
+               image?
+                   .resizable()
+                   .scaledToFit()
+
+               Button("Pull Up UIView") {
+                  self.showingUIView = true
+               }
+           }
+           .sheet(isPresented: $showingUIView) {
+               CameraFeed()
+           }
+       }
 }
 
 struct CameraFeedView_Previews: PreviewProvider {
