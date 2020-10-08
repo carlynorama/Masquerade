@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		DA45A012252E734A0047BBDE /* CameraFeed.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA45A011252E734A0047BBDE /* CameraFeed.swift */; };
 		DA45A016252E75700047BBDE /* CameraFeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA45A015252E75700047BBDE /* CameraFeedView.swift */; };
+		DA9D57B3252FA62000C463B0 /* Face.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9D57B2252FA62000C463B0 /* Face.swift */; };
 		DAE11410252E5ECF005DA660 /* MasqueradeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAE1140F252E5ECF005DA660 /* MasqueradeApp.swift */; };
 		DAE11412252E5ECF005DA660 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAE11411252E5ECF005DA660 /* ContentView.swift */; };
 		DAE11414252E5ED0005DA660 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DAE11413252E5ED0005DA660 /* Assets.xcassets */; };
@@ -18,6 +19,7 @@
 /* Begin PBXFileReference section */
 		DA45A011252E734A0047BBDE /* CameraFeed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraFeed.swift; sourceTree = "<group>"; };
 		DA45A015252E75700047BBDE /* CameraFeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraFeedView.swift; sourceTree = "<group>"; };
+		DA9D57B2252FA62000C463B0 /* Face.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Face.swift; sourceTree = SOURCE_ROOT; };
 		DAE1140C252E5ECF005DA660 /* Masquerade.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Masquerade.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DAE1140F252E5ECF005DA660 /* MasqueradeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasqueradeApp.swift; sourceTree = "<group>"; };
 		DAE11411252E5ECF005DA660 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -56,6 +58,7 @@
 		DAE1140E252E5ECF005DA660 /* Masquerade */ = {
 			isa = PBXGroup;
 			children = (
+				DA9D57B2252FA62000C463B0 /* Face.swift */,
 				DAE1140F252E5ECF005DA660 /* MasqueradeApp.swift */,
 				DAE11411252E5ECF005DA660 /* ContentView.swift */,
 				DA45A011252E734A0047BBDE /* CameraFeed.swift */,
@@ -144,6 +147,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DA9D57B3252FA62000C463B0 /* Face.swift in Sources */,
 				DA45A012252E734A0047BBDE /* CameraFeed.swift in Sources */,
 				DAE11412252E5ECF005DA660 /* ContentView.swift in Sources */,
 				DAE11410252E5ECF005DA660 /* MasqueradeApp.swift in Sources */,

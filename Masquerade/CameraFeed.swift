@@ -24,26 +24,35 @@ struct CameraFeed:UIViewControllerRepresentable {
         
         public func metadataOutput(_ output: AVCaptureMetadataOutput, didOutput metadataObjects: [AVMetadataObject], from connection: AVCaptureConnection) {
             if let metadataObject = metadataObjects.first {
-                guard let readableObject = metadataObject as? AVMetadataMachineReadableCodeObject else { return }
-                guard let stringValue = readableObject.stringValue else { return }
-                guard codeFound == false else { return }
+                //print("found something?")
+                if let readableObject = metadataObject as? AVMetadataMachineReadableCodeObject {
+                    guard let stringValue = readableObject.stringValue else { return }
+                    guard codeFound == false else { return }
+                    
+                    AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
+                    found(code: stringValue)
+                    // make sure we only trigger scans once per use
+                    codeFound = true
+                }
                 
-                AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
-                found(code: stringValue)
+                if let readableFaceObject = metadataObject as? AVMetadataFaceObject {
+                    let bounds = readableFaceObject.bounds
+                    found(code: "I found a face at \(bounds)")
+                }
+
                 
-                // make sure we only trigger scans once per use
-                codeFound = true
+
             }
         }
         
         func found(code: String) {
             print("found what I'm looking for")
-            //parent.completion(.success(code))
+            parent.completion(.success(code))
         }
         
         func didFail(reason: CameraError) {
             print("no dice")
-            //parent.completion(.failure(reason))
+            parent.completion(.failure(reason))
         }
         
     }
@@ -134,6 +143,8 @@ struct CameraFeed:UIViewControllerRepresentable {
             // Create the video data output
             
             //let videoOutput = AVCaptureMetadataOutput()
+            
+            
             let metadataOutput = AVCaptureMetadataOutput()
             
             if (captureSession.canAddOutput(metadataOutput)) {
@@ -150,6 +161,7 @@ struct CameraFeed:UIViewControllerRepresentable {
         
         
         override public func viewWillLayoutSubviews() {
+            //set the boundries
             previewLayer?.frame = view.layer.bounds
         }
         
@@ -160,6 +172,7 @@ struct CameraFeed:UIViewControllerRepresentable {
         }
         
         override public func viewDidAppear(_ animated: Bool) {
+            // Configure the preview layer
             super.viewDidAppear(animated)
             previewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
             previewLayer.frame = view.layer.bounds

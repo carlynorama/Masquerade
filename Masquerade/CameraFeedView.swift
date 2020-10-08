@@ -11,7 +11,7 @@ struct CameraFeedView: View {
     
     var body: some View {
         VStack {
-            CameraFeed(codeTypes: [.qr], completion: handleVideo)
+            CameraFeed(codeTypes: [.face], completion: handleVideo)
         }
     }
 }
