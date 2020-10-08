@@ -26,13 +26,7 @@ struct CameraFeed:UIViewControllerRepresentable {
             if let metadataObject = metadataObjects.first {
                 //print("found something?")
                 if let readableObject = metadataObject as? AVMetadataMachineReadableCodeObject {
-                    guard let stringValue = readableObject.stringValue else { return }
-                    guard codeFound == false else { return }
-                    
-                    AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
-                    found(code: stringValue)
-                    // make sure we only trigger scans once per use
-                    codeFound = true
+                    processMachineReadableObject(readableObject)
                 }
                 
                 if let readableFaceObject = metadataObject as? AVMetadataFaceObject {
@@ -53,6 +47,21 @@ struct CameraFeed:UIViewControllerRepresentable {
         func didFail(reason: CameraError) {
             print("no dice")
             parent.completion(.failure(reason))
+        }
+        
+        func processMachineReadableObject(_ readableObject:AVMetadataMachineReadableCodeObject) {
+            guard let stringValue = readableObject.stringValue else { return }
+            guard codeFound == false else { return }
+            
+            AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
+            found(code: stringValue)
+            // make sure we only trigger scans once per use
+            codeFound = true
+        }
+        
+        func processFaceObject(_ readableObject:AVMetadataFaceObject) {
+            let bounds = readableObject.bounds
+            found(code: "I found a face at \(bounds)")
         }
         
     }
