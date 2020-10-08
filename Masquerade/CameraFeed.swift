@@ -107,7 +107,14 @@ struct CameraFeed:UIViewControllerRepresentable {
             
             
             // Define the capture device we want to use
-            guard let videoCaptureDevice = AVCaptureDevice.default(for: .video) else { return }
+            // Regular camera
+            //guard let videoCaptureDevice = AVCaptureDevice.default(for: .video) else { return }
+            guard let videoCaptureDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .front) else {
+                delegate?.didFail(reason: .badInput)
+                //fatalError("camera requested not available")
+                return
+            }
+            
             let videoInput: AVCaptureDeviceInput
             
             // Connect the camera to the capture session input
