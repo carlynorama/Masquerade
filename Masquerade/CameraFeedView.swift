@@ -16,7 +16,7 @@ struct CameraFeedView: View {
     }
 }
 
-func handleVideo(result: Result<String, CameraFeed.CameraError>) {
+func handleVideo(result: Result<CGRect, CameraFeed.CameraError>) {
     switch result {
     case .success(let code):
         print(code)

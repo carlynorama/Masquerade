@@ -30,8 +30,7 @@ struct CameraFeed:UIViewControllerRepresentable {
                 }
                 
                 if let readableFaceObject = metadataObject as? AVMetadataFaceObject {
-                    let bounds = readableFaceObject.bounds
-                    found(code: "I found a face at \(bounds)")
+                    processFaceObject(readableFaceObject)
                 }
 
                 
@@ -41,27 +40,34 @@ struct CameraFeed:UIViewControllerRepresentable {
         
         func found(code: String) {
             print("found what I'm looking for")
-            parent.completion(.success(code))
+            //parent.completion(.success(code))
+        }
+        
+        func found(bounds: CGRect) {
+            //print("found what I'm looking for")
+            parent.completion(.success(bounds))
         }
         
         func didFail(reason: CameraError) {
-            print("no dice")
+            //print("no dice")
             parent.completion(.failure(reason))
         }
         
         func processMachineReadableObject(_ readableObject:AVMetadataMachineReadableCodeObject) {
+            let bounds = readableObject.bounds
             guard let stringValue = readableObject.stringValue else { return }
             guard codeFound == false else { return }
             
             AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
-            found(code: stringValue)
+            //found(code: stringValue)
+            found(bounds: bounds)
             // make sure we only trigger scans once per use
             codeFound = true
         }
         
         func processFaceObject(_ readableObject:AVMetadataFaceObject) {
             let bounds = readableObject.bounds
-            found(code: "I found a face at \(bounds)")
+            found(bounds: bounds)
         }
         
     }
@@ -222,7 +228,7 @@ struct CameraFeed:UIViewControllerRepresentable {
     
     public let codeTypes: [AVMetadataObject.ObjectType]
     public var simulatedData = ""
-    public var completion: (Result<String, CameraError>) -> Void
+    public var completion: (Result<CGRect, CameraError>) -> Void
 
 //    public init(codeTypes: [AVMetadataObject.ObjectType], simulatedData: String = "", completion: @escaping (Result<String, ScanError>) -> Void) {
 //        self.codeTypes = codeTypes
