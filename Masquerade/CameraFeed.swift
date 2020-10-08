@@ -9,12 +9,41 @@ import SwiftUI
 import AVFoundation
 
 struct CameraFeed:UIViewControllerRepresentable {
-    @Environment(\.presentationMode) var presentationMode
+    //@Environment(\.presentationMode) var presentationMode
+    public enum CameraError: Error {
+        case badInput, badOutput
+    }
     
-    class CameraCoordinator: NSObject, UINavigationControllerDelegate {
+    class CameraCoordinator: NSObject, AVCaptureMetadataOutputObjectsDelegate {
         var parent: CameraFeed
+        var codeFound = false
+        
         init(parent: CameraFeed) {
             self.parent = parent
+        }
+        
+        public func metadataOutput(_ output: AVCaptureMetadataOutput, didOutput metadataObjects: [AVMetadataObject], from connection: AVCaptureConnection) {
+            if let metadataObject = metadataObjects.first {
+                guard let readableObject = metadataObject as? AVMetadataMachineReadableCodeObject else { return }
+                guard let stringValue = readableObject.stringValue else { return }
+                guard codeFound == false else { return }
+                
+                AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
+                found(code: stringValue)
+                
+                // make sure we only trigger scans once per use
+                codeFound = true
+            }
+        }
+        
+        func found(code: String) {
+            print("found what I'm looking for")
+            //parent.completion(.success(code))
+        }
+        
+        func didFail(reason: CameraError) {
+            print("no dice")
+            //parent.completion(.failure(reason))
         }
         
     }
@@ -72,11 +101,16 @@ struct CameraFeed:UIViewControllerRepresentable {
                                                    object: nil)
             
             view.backgroundColor = UIColor.black
+            
+            //Configure capture session
             captureSession = AVCaptureSession()
             
+            
+            // Define the capture device we want to use
             guard let videoCaptureDevice = AVCaptureDevice.default(for: .video) else { return }
             let videoInput: AVCaptureDeviceInput
             
+            // Connect the camera to the capture session input
             do {
                 videoInput = try AVCaptureDeviceInput(device: videoCaptureDevice)
             } catch {
@@ -90,18 +124,23 @@ struct CameraFeed:UIViewControllerRepresentable {
                 return
             }
             
-            //            let metadataOutput = AVCaptureMetadataOutput()
-            //
-            //            if (captureSession.canAddOutput(metadataOutput)) {
-            //                captureSession.addOutput(metadataOutput)
-            //
-            //                metadataOutput.setMetadataObjectsDelegate(delegate, queue: DispatchQueue.main)
-            //                metadataOutput.metadataObjectTypes = delegate?.parent.codeTypes
-            //            } else {
-            //                delegate?.didFail(reason: .badOutput)
-            //                return
-            //            }
+            // Create the video data output
+            
+            //let videoOutput = AVCaptureMetadataOutput()
+            let metadataOutput = AVCaptureMetadataOutput()
+            
+            if (captureSession.canAddOutput(metadataOutput)) {
+                captureSession.addOutput(metadataOutput)
+
+                metadataOutput.setMetadataObjectsDelegate(delegate, queue: DispatchQueue.main)
+                metadataOutput.metadataObjectTypes = delegate?.parent.codeTypes
+            } else {
+                delegate?.didFail(reason: .badOutput)
+                return
+            }
         }
+        
+        
         
         override public func viewWillLayoutSubviews() {
             previewLayer?.frame = view.layer.bounds
@@ -149,7 +188,18 @@ struct CameraFeed:UIViewControllerRepresentable {
             return .all
         }
     }
+    
     #endif
+    
+    public let codeTypes: [AVMetadataObject.ObjectType]
+    public var simulatedData = ""
+    public var completion: (Result<String, CameraError>) -> Void
+
+//    public init(codeTypes: [AVMetadataObject.ObjectType], simulatedData: String = "", completion: @escaping (Result<String, ScanError>) -> Void) {
+//        self.codeTypes = codeTypes
+//        self.simulatedData = simulatedData
+//        self.completion = completion
+//    }
     
     
     public func makeCoordinator() -> CameraCoordinator {
@@ -174,8 +224,8 @@ struct CameraFeed:UIViewControllerRepresentable {
 
 
 
-struct CameraFeed_Previews: PreviewProvider {
-    static var previews: some View {
-        CameraFeed()
-    }
-}
+//struct CameraFeed_Previews: PreviewProvider {
+//    static var previews: some View {
+//        CameraFeed(codeTypes: [.qr], completion: <#(Result<String, CameraFeed.CameraError>) -> Void#>)
+//    }
+//}

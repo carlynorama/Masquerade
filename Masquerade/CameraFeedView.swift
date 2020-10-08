@@ -11,8 +11,17 @@ struct CameraFeedView: View {
     
     var body: some View {
         VStack {
-            CameraFeed()
+            CameraFeed(codeTypes: [.qr], completion: handleVideo)
         }
+    }
+}
+
+func handleVideo(result: Result<String, CameraFeed.CameraError>) {
+    switch result {
+    case .success(let code):
+        print(code)
+    case .failure(let error):
+        print("Scanning failed: \(error)")
     }
 }
 
