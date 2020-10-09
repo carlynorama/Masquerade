@@ -10,6 +10,7 @@ import AVFoundation
 
 struct CameraFeed:UIViewControllerRepresentable {
     //@Environment(\.presentationMode) var presentationMode
+    
     public enum CameraError: Error {
         case badInput, badOutput
     }
@@ -23,6 +24,7 @@ struct CameraFeed:UIViewControllerRepresentable {
         }
         
         public func metadataOutput(_ output: AVCaptureMetadataOutput, didOutput metadataObjects: [AVMetadataObject], from connection: AVCaptureConnection) {
+            
             if let metadataObject = metadataObjects.first {
                 //print("found something?")
                 if let readableObject = metadataObject as? AVMetadataMachineReadableCodeObject {
@@ -66,6 +68,7 @@ struct CameraFeed:UIViewControllerRepresentable {
         }
         
         func processFaceObject(_ readableObject:AVMetadataFaceObject) {
+            //let bounds = parent.convertRect(readableObject.bounds)
             let bounds = readableObject.bounds
             found(bounds: bounds)
         }
@@ -229,6 +232,7 @@ struct CameraFeed:UIViewControllerRepresentable {
     public let codeTypes: [AVMetadataObject.ObjectType]
     public var simulatedData = ""
     public var completion: (Result<CGRect, CameraError>) -> Void
+
 
 //    public init(codeTypes: [AVMetadataObject.ObjectType], simulatedData: String = "", completion: @escaping (Result<String, ScanError>) -> Void) {
 //        self.codeTypes = codeTypes
