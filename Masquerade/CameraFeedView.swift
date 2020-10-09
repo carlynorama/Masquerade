@@ -29,7 +29,7 @@ struct CameraFeedView: View {
                 }
             }
             .onAppear(perform: {
-                let frame = geometry.frame(in: .local)
+                let frame = geometry.frame(in: .global)
                 geometryRect = CGRect(origin: CGPoint(x: frame.minX, y: frame.minY), size: geometry.size)
             })
         })
