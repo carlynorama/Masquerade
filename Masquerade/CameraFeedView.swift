@@ -35,7 +35,7 @@ struct CameraFeedView: View {
         case .success(let bounds):
             print(bounds)
             foundFace = bounds
-            //TODO: Add a timer so if not updated in time foundFace = nil / opcity of rectangle? 
+            //TODO: Add a timer so if not updated in time foundFace = nil / opcity of rectangle?
         case .failure(let error):
             print("Scanning failed: \(error)")
             foundFace = nil
@@ -46,8 +46,8 @@ struct CameraFeedView: View {
 
 struct FoundObject: Shape {
     func reMapBoundries(frameRect:CGRect, boundsRect:CGRect) -> CGRect {
-        let newX = (frameRect.width * boundsRect.origin.x) + frameRect.origin.x
-        let newY = (frameRect.height * boundsRect.origin.y) + frameRect.origin.y
+        let newY = (frameRect.width * boundsRect.origin.x) + (1.0-frameRect.origin.x)
+        let newX = (frameRect.height * boundsRect.origin.y) + (1.0-frameRect.origin.y)
         let newWidth = (frameRect.width * boundsRect.width)
         let newHeight = (frameRect.height * boundsRect.height)
         let newRect = CGRect(origin: CGPoint(x: newX, y: newY), size: CGSize(width: newWidth, height: newHeight))
