@@ -19,7 +19,7 @@
 /* Begin PBXFileReference section */
 		DA45A011252E734A0047BBDE /* CameraFeed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraFeed.swift; sourceTree = "<group>"; };
 		DA45A015252E75700047BBDE /* CameraFeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraFeedView.swift; sourceTree = "<group>"; };
-		DA9D57B2252FA62000C463B0 /* Face.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Face.swift; sourceTree = SOURCE_ROOT; };
+		DA9D57B2252FA62000C463B0 /* Face.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Face.swift; path = Masquerade/Face.swift; sourceTree = SOURCE_ROOT; };
 		DAE1140C252E5ECF005DA660 /* Masquerade.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Masquerade.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DAE1140F252E5ECF005DA660 /* MasqueradeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasqueradeApp.swift; sourceTree = "<group>"; };
 		DAE11411252E5ECF005DA660 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
