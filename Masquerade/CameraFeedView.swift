@@ -29,7 +29,7 @@ struct CameraFeedView: View {
                 }
             }
             .onAppear(perform: {
-                let frame = geometry.frame(in: .global)
+                let frame = geometry.frame(in: .local)
                 geometryRect = CGRect(origin: CGPoint(x: frame.minX, y: frame.minY), size: geometry.size)
             })
         })
@@ -56,8 +56,8 @@ struct FoundObject: Shape {
         let newY = (frameRect.width * boundsRect.origin.x) + (1.0-frameRect.origin.x)
         //X bounded to height? Really?
         let newX = (frameRect.height * boundsRect.origin.y) + (1.0-frameRect.origin.y)
-        let newWidth = 100//(frameRect.width * boundsRect.width)
-        let newHeight = 100//(frameRect.height * boundsRect.height)
+        let newWidth = (frameRect.width * boundsRect.width)
+        let newHeight = (frameRect.height * boundsRect.height)
         let newRect = CGRect(origin: CGPoint(x: newX, y: newY), size: CGSize(width: newWidth, height: newHeight))
         return newRect
     }
