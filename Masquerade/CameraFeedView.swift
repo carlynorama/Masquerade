@@ -17,6 +17,12 @@ struct CameraFeedView: View {
             ZStack {
                 CameraFeed(codeTypes: [.face], completion: handleCameraReturn)
                 if (foundFace != nil) {
+                    Rectangle()
+                        .stroke()
+                        .foregroundColor(.orange)
+                        .frame(width: 100, height: 100, alignment: .topLeading)
+                        .position(x: geometry.size.width * foundFace!.origin.x, y: geometry.size.height * foundFace!.origin.y)
+                        
                     FoundObject(frameRect: geometryRect, boundsRect: foundFace!)
                         .stroke()
                         .foregroundColor(.blue)
@@ -46,10 +52,12 @@ struct CameraFeedView: View {
 
 struct FoundObject: Shape {
     func reMapBoundries(frameRect:CGRect, boundsRect:CGRect) -> CGRect {
+        //Y bounded to width? Really?
         let newY = (frameRect.width * boundsRect.origin.x) + (1.0-frameRect.origin.x)
+        //X bounded to height? Really?
         let newX = (frameRect.height * boundsRect.origin.y) + (1.0-frameRect.origin.y)
-        let newWidth = (frameRect.width * boundsRect.width)
-        let newHeight = (frameRect.height * boundsRect.height)
+        let newWidth = 100//(frameRect.width * boundsRect.width)
+        let newHeight = 100//(frameRect.height * boundsRect.height)
         let newRect = CGRect(origin: CGPoint(x: newX, y: newY), size: CGSize(width: newWidth, height: newHeight))
         return newRect
     }
