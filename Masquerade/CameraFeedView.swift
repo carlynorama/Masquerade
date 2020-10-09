@@ -35,8 +35,10 @@ struct CameraFeedView: View {
         case .success(let bounds):
             print(bounds)
             foundFace = bounds
+            //TODO: Add a timer so if not updated in time foundFace = nil / opcity of rectangle? 
         case .failure(let error):
             print("Scanning failed: \(error)")
+            foundFace = nil
         }
     }
 
